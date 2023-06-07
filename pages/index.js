@@ -5,7 +5,7 @@ import { useState } from 'react';
 export default function Home() {
   const [animeList, setAnimeList] = useState([{}]);
   const [displayer, setDisplayer] = useState({});
-  const [animeName, setAnimeName] = useState('');
+  const [animeName, setAnimeName] = useState('One Piece');
   const [animeSOEpisodes, setAnimeSOEpisodes] = useState(24);
   const [totalSOs, setTotalSOs] = useState(1);
   const [sight, setSight] = useState(1);
@@ -14,16 +14,19 @@ export default function Home() {
       <Head>
         <title>My Anime List</title>
       </Head>
-      <h1>My Anime List</h1>
-      <br />
-      Notes . . .
-      <br />
-      <textarea name="textarea" id="123" cols="30" rows="10"></textarea>
-      <br />
-      <AnimeForm></AnimeForm>
-      <MyAnimeList></MyAnimeList>
-      <Displayer></Displayer>
-      {/* input fails to add more than one character */}
+      <h1 className={styles.header1}>My Anime List</h1>
+      <main className={styles.main}>
+        <div className={styles.container}>
+          <AnimeForm></AnimeForm>
+          <MyAnimeList></MyAnimeList>
+          <Displayer></Displayer>
+          {/* input fails to add more than one character */}
+          <br />
+          Notes . . .
+          <br />
+          <textarea name="textarea" id="123" cols="30" rows="10"></textarea>
+        </div>
+      </main>
     </div>
   );
 
