@@ -4,23 +4,39 @@ import { useState } from 'react';
 
 export default function Home() {
   const [animeList, setAnimeList] = useState([{}]);
-  const [displayer, setDisplayer] = useState({});
   const [animeName, setAnimeName] = useState('One Piece');
   const [animeSOEpisodes, setAnimeSOEpisodes] = useState(24);
   const [totalSOs, setTotalSOs] = useState(1);
+  //
+  const [displayer, setDisplayer] = useState({});
   const [sight, setSight] = useState(1);
+  //
+  const [users, setUsers] = useState([]);
+  const [userName, setUserName] = useState('User');
+  const [userPassword, setUserPassword] = useState('1234');
+  const [currentUserID, setCurrentUserID] = useState(0);
+
   return (
     <div>
       <Head>
         <title>My Anime List</title>
       </Head>
-      <h1 className={styles.header1}>My Anime List</h1>
-      <main className={styles.main}>
-        <div className={styles.container}>
+      <h1>My Anime List</h1>
+      <main>
+        <div>
+          <RegistryCard></RegistryCard>
+          <LogInCard></LogInCard>
           <AnimeForm></AnimeForm>
           <MyAnimeList></MyAnimeList>
+          <button
+            onClick={() => {
+              users[currentUserID].animeList = animeList;
+            }}
+          >
+            Save
+          </button>
           <Displayer></Displayer>
-          {/* input fails to add more than one character */}
+          {/* input fails to add more than one character at a time */}
           <br />
           Notes . . .
           <br />
@@ -29,6 +45,111 @@ export default function Home() {
       </main>
     </div>
   );
+
+  function getElementPositionByName(list, elementName) {
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].name == elementName) {
+        return i;
+      }
+    }
+  }
+
+  function LogInCard() {
+    return (
+      <div>
+        <h2>Log In</h2>
+        <span>Username </span>
+        <input
+          type="text"
+          value={userName}
+          onChange={(e) => {
+            setUserName(e.target.value);
+          }}
+        />
+        <br />
+        <span>Passward </span>
+        <input
+          type="text"
+          value={userPassword}
+          onChange={(e) => {
+            setUserPassword(e.target.value);
+          }}
+        />
+        <br />
+        <button
+          onClick={() => {
+            let loggin = false;
+            for (let i = 0; i < users.length; i++) {
+              if (
+                userName == users[i].name &&
+                userPassword == users[i].password
+              ) {
+                setAnimeList(users[i].animeList);
+                alert('You have succesfully logged in!');
+                setCurrentUserID(i);
+                loggin = true;
+              }
+            }
+            if (!loggin) {
+              alert('ERROR');
+            }
+          }}
+        >
+          Log In
+        </button>
+      </div>
+    );
+  }
+
+  function RegistryCard() {
+    return (
+      <div>
+        <h2>Sign Up</h2>
+        <span>Username: </span>
+        <input
+          type="text"
+          value={userName}
+          onChange={(e) => {
+            setUserName(e.target.value);
+          }}
+        />
+        <br />
+        <span>Password: </span>
+        <input
+          type="text"
+          value={userPassword}
+          onChange={(e) => {
+            setUserPassword(e.target.value);
+          }}
+        />
+        <br />
+        <button
+          onClick={() => {
+            let double = false;
+            for (let i = 0; i < users.length; i++) {
+              if (userName == users[i].name) {
+                double = true;
+              }
+            }
+            if (double) {
+              alert('Name already taken');
+            } else {
+              setUsers(
+                users,
+                users.push({
+                  name: userName,
+                  password: userPassword,
+                  animeList: [{}],
+                })
+              );
+            }
+          }}
+        >
+          Sign Up
+        </button>
+      </div>
+    );
+  }
 
   function Displayer() {
     if (displayer.name) {
